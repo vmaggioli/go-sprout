@@ -1,7 +1,7 @@
 package model
 
 type Config struct {
-	Debug     bool          `yaml:"debug"`
+	Verbose   bool          `yaml:"verbose"`
 	Structure ProjectLayout `yaml:"structure"`
 	Repos     []Repo        `yaml:"repos"`
 }

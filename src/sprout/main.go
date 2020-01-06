@@ -3,20 +3,38 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/Fair2Dare/sprout/src/sprout/model"
 	"github.com/Fair2Dare/sprout/src/sprout/utils"
+	"github.com/jessevdk/go-flags"
 	"github.com/kataras/golog"
 	"github.com/mitchellh/go-homedir"
 
 	"gopkg.in/yaml.v2"
 )
 
+var opts struct {
+	Verbose []bool `short:"v" long:"verbose" description:"Show verbose debug information"`
+	Spread  []bool `short:"s" long:"spread" description:"Execute command across all repos"`
+}
+
 func main() {
-	golog.SetLevel("debug")
+	_, err := flags.ParseArgs(&opts, os.Args)
+	if err != nil {
+		golog.Fatal(err)
+	}
+	if len(opts.Verbose) > 0 && opts.Verbose[0] {
+		golog.SetLevel("debug")
+	}
 	golog.Debug("Checking for config")
 	ParseConfig()
+	// RunCommand(config)
 }
+
+// func RunCommand(config model.Config) {
+
+// }
 
 func ParseConfig() model.Config {
 	dir, err := homedir.Dir()
@@ -31,14 +49,13 @@ func ParseConfig() model.Config {
 
 	configYaml, err := ioutil.ReadFile(path)
 	if err != nil {
-		golog.Fatal("Error reading file, terminating")
+		golog.Fatal(err)
 	}
 
 	config := model.Config{}
 	if err := yaml.Unmarshal(configYaml, &config); err != nil {
-		golog.Fatal("Error parsing config, terminating")
+		golog.Fatal(err)
 	}
 
-	golog.Info(config.Structure.Projects[0].Projects[0].Name)
 	return config
 }

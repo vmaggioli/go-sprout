@@ -1,11 +1,11 @@
-debug: true
+verbose: true
 structure:
   projects:
     - name: project1
       projects:
         - name: project2
           URL: git3
-      repos: 
+      repos:
         - name: test4
           URL: git4
   repos:
