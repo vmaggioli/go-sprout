@@ -1,0 +1,15 @@
+debug: true
+structure:
+  projects:
+    - name: project1
+      projects:
+        - name: project2
+          URL: git3
+      repos: 
+        - name: test4
+          URL: git4
+  repos:
+    - name: test1
+      URL: git
+    - name: test2
+      URL: git2

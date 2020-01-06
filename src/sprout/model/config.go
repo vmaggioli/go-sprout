@@ -1,7 +1,12 @@
 package model
 
-// Config represents a parsed sprout_config.yml file
 type Config struct {
-	Verbose     bool
-	MainProject Project
+	Debug     bool          `yaml:"debug"`
+	Structure ProjectLayout `yaml:"structure"`
+	Repos     []Repo        `yaml:"repos"`
+}
+
+type ProjectLayout struct {
+	Projects []Project `yaml:"projects"`
+	Repos    []Repo    `yaml:"config"`
 }
