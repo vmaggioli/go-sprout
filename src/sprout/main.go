@@ -24,11 +24,11 @@ func main() {
 	if err != nil {
 		golog.Fatal(err)
 	}
-	if len(opts.Verbose) > 0 && opts.Verbose[0] {
+	golog.Debug("Checking for config")
+	config := ParseConfig()
+	if config.Verbose || (len(opts.Verbose) > 0 && opts.Verbose[0]) {
 		golog.SetLevel("debug")
 	}
-	golog.Debug("Checking for config")
-	ParseConfig()
 	// RunCommand(config)
 }
 
