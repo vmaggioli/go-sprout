@@ -3,48 +3,36 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 
+	"github.com/Fair2Dare/sprout/src/sprout/cli"
 	"github.com/Fair2Dare/sprout/src/sprout/model"
 	"github.com/Fair2Dare/sprout/src/sprout/utils"
-	"github.com/jessevdk/go-flags"
 	"github.com/kataras/golog"
 	"github.com/mitchellh/go-homedir"
 
 	"gopkg.in/yaml.v2"
 )
 
-var opts struct {
-	Verbose []bool `short:"v" long:"verbose" description:"Show verbose debug information"`
-	Spread  []bool `short:"s" long:"spread" description:"Execute command across all repos"`
-}
-
 func main() {
-	_, err := flags.ParseArgs(&opts, os.Args)
-	if err != nil {
-		golog.Fatal(err)
-	}
-	golog.Debug("Checking for config")
+	golog.SetLevel("debug")
 	config := ParseConfig()
-	if config.Verbose || (len(opts.Verbose) > 0 && opts.Verbose[0]) {
+	options := cli.ParseCommand()
+	if config.Verbose || options.Verbose {
 		golog.SetLevel("debug")
+		golog.Debug("Debug logging enabled")
 	}
-	// RunCommand(config)
+	cli.RunCommand(options)
 }
 
-// func RunCommand(config model.Config) {
-
-// }
-
+// ParseConfig reads from sprout_config.yml to generate the project layout
 func ParseConfig() model.Config {
 	dir, err := homedir.Dir()
 	if err != nil {
 		golog.Fatal(err)
 	}
 	path := fmt.Sprintf("%s%s%s", dir, utils.PathSeparator, utils.ConfigFileName)
-	golog.Info(path)
 	if !utils.FileExists(path) {
-		golog.Fatal(fmt.Sprintf(`No %s found in "%s", terminating`, utils.ConfigFileName, dir))
+		golog.Fatal(fmt.Sprintf(`No %s found in "%s"`, utils.ConfigFileName, dir))
 	}
 
 	configYaml, err := ioutil.ReadFile(path)
