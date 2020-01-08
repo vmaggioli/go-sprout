@@ -14,14 +14,13 @@ import (
 )
 
 func main() {
-	golog.SetLevel("debug")
 	config := ParseConfig()
 	options := cli.ParseCommand()
 	if config.Verbose || options.Verbose {
 		golog.SetLevel("debug")
 		golog.Debug("Debug logging enabled")
 	}
-	cli.RunCommand(options)
+	cli.RunCommand(config, options)
 }
 
 // ParseConfig reads from sprout_config.yml to generate the project layout

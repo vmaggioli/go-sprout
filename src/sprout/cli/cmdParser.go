@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Fair2Dare/sprout/src/sprout/model"
 	"github.com/docopt/docopt-go"
 	"github.com/kataras/golog"
 )
@@ -46,7 +47,7 @@ func ParseCommand() (options SproutOptions) {
 }
 
 // RunCommand executes the commands given in sproutOptions
-func RunCommand(options SproutOptions) {
+func RunCommand(config model.Config, options SproutOptions) {
 	if options.Help {
 		docopt.PrintHelpAndExit(nil, usage)
 		return
@@ -55,10 +56,9 @@ func RunCommand(options SproutOptions) {
 	case "spread":
 		SpreadCommand()
 	case "create":
-		CreateCommand()
+		CreateCommand(config)
 	default:
-		{
-			docopt.PrintHelpAndExit(errors.New(fmt.Sprint("Command not found")), usage)
-		}
+		docopt.PrintHelpAndExit(errors.New(fmt.Sprint("Command not found")), usage)
+
 	}
 }

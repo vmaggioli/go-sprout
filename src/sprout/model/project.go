@@ -4,5 +4,5 @@ package model
 type Project struct {
 	Name     string    `yaml:"name"`
 	Projects []Project `yaml:"projects"`
-	Repos    []Repo    `yaml:"repos"`
+	Repos    []string  `yaml:"repos"`
 }
