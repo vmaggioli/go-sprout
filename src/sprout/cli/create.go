@@ -1,13 +1,12 @@
 package cli
 
 import (
-	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/Fair2Dare/sprout/src/sprout/model"
 	"github.com/Fair2Dare/sprout/src/sprout/utils"
 	"github.com/kataras/golog"
-	"gopkg.in/src-d/go-git.v4"
 )
 
 // CreateCommand opens a prompt to select which repositories to clone
@@ -16,15 +15,18 @@ func CreateCommand(config model.Config) {
 }
 
 func createStructure(projects []model.Project, repos []string) {
-	fmt.Println(len(projects))
 	for _, repoURL := range repos {
-		fmt.Println(repos)
-		golog.Debug("Cloning %s", repoURL)
-		git.PlainClone(".", false, &git.CloneOptions{URL: repoURL, Progress: os.Stdout})
+		golog.Debugf("Cloning %s", repoURL)
+		cmd := exec.Command("git", "clone", repoURL)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			golog.Error(err)
+		}
 	}
 
 	for _, project := range projects {
-		golog.Debug("Creating directory for project %s", project)
+		golog.Debugf("Creating directory for project \"%s\"", project.Name)
 		err := utils.Mkdir(project.Name)
 		if err != nil {
 			golog.Error(err)
