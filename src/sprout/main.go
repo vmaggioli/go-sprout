@@ -25,7 +25,7 @@ func main() {
 }
 
 // ParseConfig reads from sprout_config.yml to generate the project layout
-func ParseConfig() model.Config {
+func ParseConfig() *model.Config {
 	dir, err := homedir.Dir()
 	if err != nil {
 		golog.Fatal(err)
@@ -45,5 +45,5 @@ func ParseConfig() model.Config {
 		golog.Fatal(err)
 	}
 
-	return config
+	return &config
 }

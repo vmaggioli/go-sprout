@@ -47,7 +47,7 @@ func ParseCommand() (options SproutOptions) {
 }
 
 // RunCommand executes the commands given in sproutOptions
-func RunCommand(config model.Config, options SproutOptions) {
+func RunCommand(config *model.Config, options SproutOptions) {
 	if options.Help {
 		docopt.PrintHelpAndExit(nil, usage)
 		return
