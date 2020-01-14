@@ -7,6 +7,11 @@ type Config struct {
 	Repos    []Repo    `yaml:"repos"`
 }
 
+type SproutBranch struct {
+	Folders []string `yaml:"folders"`
+	Repos   []string `yaml:"repos"`
+}
+
 func (config *Config) GetAllRepos() (repos []string) {
 	options := []string{}
 	for _, repo := range config.Repos {

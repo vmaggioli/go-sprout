@@ -16,7 +16,6 @@ import (
 func main() {
 	config := ParseConfig()
 	options := cli.ParseCommand()
-	golog.Info(config.Verbose)
 	if config.Verbose || options.Verbose {
 		golog.SetLevel("debug")
 		golog.Debug("Verbose logging enabled")
