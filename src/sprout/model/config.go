@@ -1,5 +1,8 @@
 package model
 
+// SproutRootFileName sets the file name that sprout generates when creating the directory structure
+const SproutRootFileName string = ".sprout_root.yml"
+
 // Config represents the layout of the sprout_config.yml file and all available flag options
 type Config struct {
 	Verbose  bool      `yaml:"verbose"`
@@ -7,11 +10,12 @@ type Config struct {
 	Repos    []Repo    `yaml:"repos"`
 }
 
-type SproutBranch struct {
-	Folders []string `yaml:"folders"`
-	Repos   []string `yaml:"repos"`
+// SproutRoot represents the structure of o
+type SproutRoot struct {
+	Repos []RepoWithPath `yaml:"repos"`
 }
 
+// GetAllRepos retrieves the names of all repositories in the specified Config struct
 func (config *Config) GetAllRepos() (repos []string) {
 	options := []string{}
 	for _, repo := range config.Repos {

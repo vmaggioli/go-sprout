@@ -5,3 +5,9 @@ type Repo struct {
 	Name string `yaml:"name"`
 	URL  string `yaml:"url"`
 }
+
+// RepoWithPath is used to write to our hidden .sprout_root.yml file when generating the project layout
+type RepoWithPath struct {
+	Name string `yaml:"name"`
+	Path string `yaml:"path"`
+}

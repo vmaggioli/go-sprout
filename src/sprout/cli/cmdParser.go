@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/Fair2Dare/sprout/src/sprout/model"
 	"github.com/docopt/docopt-go"
@@ -19,7 +20,7 @@ type SproutOptions struct {
 }
 
 const usage = `usage:
-  sprout [options] <command> [<args...>]
+  sprout [options] <command> [<args>...]
 
 Options:
   -h --help      show this screen
@@ -54,7 +55,12 @@ func RunCommand(config *model.Config, options SproutOptions) {
 	}
 	switch options.Command {
 	case "spread":
-		SpreadCommand()
+		var command string
+		for _, arg := range options.Args {
+			command += arg + " "
+		}
+		command = strings.TrimSpace(command)
+		SpreadCommand(command)
 	case "create":
 		CreateCommand(config)
 	default:
